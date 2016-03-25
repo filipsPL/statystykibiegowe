@@ -103,13 +103,17 @@ wej = pd.read_csv(input_csv, sep=",", encoding='utf-8') #, index_col=[0])
 t_min = np.min(wej.czas_netto.apply(getSec))
 t_max = np.max(wej.czas_netto.apply(getSec))
 
-bin_min = int(t_min/3600)
-bin_max = int(t_max/3600+1)
+bin_min = int(t_min/300)*300
+bin_max = int(t_max/300+1)*300
 
 if t_max > 6*3600: t_max = 6*3600 # odcinamy czasy > 6h
 
-bins = np.arange(t_min, t_max + 300, 300)
-#print bins
+#bins = np.arange(t_min, t_max + 300, 300)
+#print t_min, t_max
+#print bin_min, bin_max
+bins = np.arange(bin_min, bin_max + 300, 300)
+print bins
+#exit(1)
 
 uczestnikow = len(wej.index)
 wej['czas_netto_s'] = wej.czas_netto.apply(getSec)
@@ -229,7 +233,7 @@ def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50):
 ########## MIĘCHO
 
 rysuj_violin_plot(groupby='plec', tytul=u"wg płci", warunek=1)
-rysuj_violin_plot(groupby='kat', tytul="wg kategorii", wysokosc=10)
+rysuj_violin_plot(groupby='kat', tytul="wg kategorii", wysokosc=10, warunek=5)
 rysuj_violin_plot(groupby='kraj', tytul=u"wg krajów", wysokosc=10, warunek=10)
 
 
