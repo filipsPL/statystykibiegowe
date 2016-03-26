@@ -76,7 +76,8 @@ def getSec(s):
       if len(s) == 5:
 	s = "00:" + s
       l = str(s).split(':')
-      return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2])
+      #print l[0], l[1],l[2]
+      return int(l[0]) * 3600 + int(l[1]) * 60 + float(l[2])
 
 def getHMS(seconds):
     m, s = divmod(seconds, 60)
@@ -103,32 +104,45 @@ wej = pd.read_csv(input_csv, sep=",", encoding='utf-8') #, index_col=[0])
 t_min = np.min(wej.czas_netto.apply(getSec))
 t_max = np.max(wej.czas_netto.apply(getSec))
 
-bin_min = int(t_min/300)*300
-bin_max = int(t_max/300+1)*300
 
-if t_max > 6*3600: t_max = 6*3600 # odcinamy czasy > 6h
+if t_max > 8*3600:	# bardzo długie biegi
+  print "Bardzo długi bieg"
+  dT = 1200
 
-#bins = np.arange(t_min, t_max + 300, 300)
-#print t_min, t_max
-#print bin_min, bin_max
-bins = np.arange(bin_min, bin_max + 300, 300)
+elif t_max > 6*3600:
+  print "Długi bieg, odcinamy czasy >6h"
+  t_max = 6*3600 # odcinamy czasy > 6h
+  dT = 300
+
+else:
+  print "Normalny bieg"
+  dT = 300
+
+
+bin_min = int(t_min/dT)*dT
+bin_max = int(t_max/dT+1)*dT
+bins = np.arange(bin_min, bin_max + dT, dT)
+
 print bins
-#exit(1)
+
 
 uczestnikow = len(wej.index)
 wej['czas_netto_s'] = wej.czas_netto.apply(getSec)
 #statsDf = pd.DataFrame(wej.czas_netto_s.describe()[1:].apply(getHMS))
 print "Uczestników:", uczestnikow
 
-wej.plec.replace('F', 'K', inplace=True)
-
+if 'plec' not in wej:
+  wej['plec'] = 'wszyscy'
+  plcie = { "wszyscy": ['wszyscy']}
+else:
+  plcie = { "wszyscy": ['K','M'], "kobiety": ['K'], u"mężczyźni": ['M'] }
+  wej.plec.replace('F', 'K', inplace=True)
 
 ### normalne histogramy ###
 
-plcie = { "wszyscy": ['K','M'], "kobiety": ['K'], u"mężczyźni": ['M'] }
+
 TRESC += "<a name='histogramy'><h2>Histogramy</h2></a>"
 MENU += "<a href='#histogramy'>Histogramy</a></br>"
-
 
 for plecOpis, plec in plcie.iteritems():
     df = wej[wej.plec.isin(plec)]
@@ -141,7 +155,7 @@ for plecOpis, plec in plcie.iteritems():
     ax.get_yaxis().tick_left()
 
     ax.xaxis.set_major_formatter(FuncFormatter(time_ticks))
-    ax.xaxis.set_major_locator(MultipleLocator(300))
+    ax.xaxis.set_major_locator(MultipleLocator(dT))
     plt.title("%s (%s)" % (global_tytul, opis))
     plt.xlabel("Czas netto (s)")
     plt.ylabel(u"zawodników")
@@ -171,7 +185,7 @@ def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50):
       print "ileGrup", ileGrup
       if(ileGrup > 1 and ileGrup <= 30):
 		  
-	  print "Kolumna %s istnieje, <20 grup, robimy violinploty!" % (groupby)
+	  print "Kolumna %s istnieje, <=30 grup, robimy violinploty!" % (groupby)
 	  global TRESC, MENU, global_tytul
 	  
 	  print "Liczba grup:", ileGrup

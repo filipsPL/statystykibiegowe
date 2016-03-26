@@ -8,5 +8,5 @@ do
 	echo "$input	$tytul"
 
 	time ./hist.py -i "in/$input" -t "$tytul"
-#exit
+exit
 done < in/biegi.cfg
