@@ -71,6 +71,8 @@ a:focus { color: black; }
 a:hover { color: #0074D9; }
 a:active { color: red; }
 
+.footer a:link { color: silver; text-decoration: none;}
+
 /* -----------------------
 Layout styles
 ------------------------*/
