@@ -26,6 +26,7 @@ import getopt
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter
 from matplotlib.ticker import FuncFormatter, MultipleLocator
+
 import pandas as pd
 import numpy as np
 import datetime
@@ -36,8 +37,9 @@ import seaborn as sns
 from string import Template	# html templates
 import codecs	# unicode write-save files
 
-sns.set(style="ticks")
 
+sns.set(style="ticks")
+sns.set_context("notebook", font_scale=1.2)
 
 input_csv = ''
 global_tytul = ''
@@ -87,67 +89,13 @@ def getHMS(seconds):
 
 def time_ticks(x, pos):
     d = datetime.timedelta(seconds=x)
-    return str(d)
+    h, m, s = str(d).split(":")
+    return ":".join([h, m])
 
 ################################################
-# create output dir
-outputdir_rel = "out/" + os.path.splitext(os.path.basename(input_csv))[0] + "/"
-#outputdir = "/mnt/nfs/www/statystykibiegowe/"
-outputdir = "OUT_HTML/"
-mkdir_p(outputdir + outputdir_rel)
 
-print outputdir_rel
-
-################################################
-wej = pd.read_csv(input_csv, sep=",", encoding='utf-8') #, index_col=[0])
-
-t_min = np.min(wej.czas_netto.apply(getSec))
-t_max = np.max(wej.czas_netto.apply(getSec))
-
-
-if t_max > 8*3600:	# bardzo długie biegi
-  print "Bardzo długi bieg"
-  dT = 1200
-
-elif t_max > 6*3600:
-  print "Długi bieg, odcinamy czasy >6h"
-  t_max = 6*3600 # odcinamy czasy > 6h
-  dT = 300
-
-else:
-  print "Normalny bieg"
-  dT = 300
-
-
-bin_min = int(t_min/dT)*dT
-bin_max = int(t_max/dT+1)*dT
-bins = np.arange(bin_min, bin_max + dT, dT)
-
-print bins
-
-
-uczestnikow = len(wej.index)
-wej['czas_netto_s'] = wej.czas_netto.apply(getSec)
-#statsDf = pd.DataFrame(wej.czas_netto_s.describe()[1:].apply(getHMS))
-print "Uczestników:", uczestnikow
-
-if 'plec' not in wej:
-  wej['plec'] = 'wszyscy'
-  plcie = { "wszyscy": ['wszyscy']}
-else:
-  plcie = { "wszyscy": ['K','M'], "kobiety": ['K'], u"mężczyźni": ['M'] }
-  wej.plec.replace('F', 'K', inplace=True)
-
-### normalne histogramy ###
-
-
-TRESC += "<a name='histogramy'><h2>Histogramy</h2></a>"
-MENU += "<a href='#histogramy'>Histogramy</a></br>"
-
-for plecOpis, plec in plcie.iteritems():
-    df = wej[wej.plec.isin(plec)]
-    opis="+".join(plec)
-
+def rysuj_histogram(df, opis):
+    global TRESC, MENU, global_tytul
     fig, ax = plt.subplots(figsize=(10, 5))
     plt.subplots_adjust(bottom=0.18)
 
@@ -157,23 +105,55 @@ for plecOpis, plec in plcie.iteritems():
     ax.xaxis.set_major_formatter(FuncFormatter(time_ticks))
     ax.xaxis.set_major_locator(MultipleLocator(dT))
     plt.title("%s (%s)" % (global_tytul, opis))
-    plt.xlabel("Czas netto (s)")
-    plt.ylabel(u"zawodników")
     plt.xticks(rotation='vertical')
-    ax.fmt_xdata = DateFormatter('%H:%M')
-    sns.distplot(df.czas_netto_s, rug=True, bins=bins);
+    
+    sns.distplot(df.czas_netto_s, rug=True, bins=bins, kde=False);
+
+    plt.xlabel(u"Czas netto")
+    plt.ylabel(u"Zawodników")
 
     #ppl.hist(np.asarray(df.czas_netto_s), grid='y', color='orange', bins=bins)
     outFileName = "hist-%s.png" % (opis)
     plt.savefig(outputdir + outputdir_rel + outFileName, dpi=dpi)
 
-    TRESC += u"<h3>%s</h3>\n" % (plecOpis)
     TRESC += u"<p><img src='%s' alt='%s' /></p>\n" % (outFileName, global_tytul)
     plt.clf()
 
+'''
+def rysuj_joinplot(dziewczyny, chlopaki):
+  
+    print len(dziewczyny), len(chlopaki)
+    dziewczyny = np.append(dziewczyny,  np.empty(len(chlopaki) - len(dziewczyny)) * np.nan)
+    print dziewczyny
+    print len(dziewczyny), len(chlopaki)
+  
+  
+    global TRESC, MENU, global_tytul
+    fig, ax = plt.subplots(figsize=(10, 5))
+    plt.subplots_adjust(bottom=0.18)
 
-TRESC += u"<a name='rybkowe'><h2>Wykresy rybkowe</h2></a>\n"
-MENU += "<a href='#rybkowe'>Wykresy rybkowe</a><br />"
+    ax.get_xaxis().tick_bottom()
+    ax.get_yaxis().tick_left()
+
+    ax.xaxis.set_major_formatter(FuncFormatter(time_ticks))
+    ax.xaxis.set_major_locator(MultipleLocator(dT))
+    plt.title("%s (%s)" % (global_tytul, u"Dziewczyny kontra chłopaki"))
+    plt.xticks(rotation='vertical')
+
+    sns.jointplot(dziewczyny, chlopaki, kind="kde", size=7, space=0, dropna=True)
+    ax.xaxis.set_major_formatter(DateFormatter('%H:%M'))
+
+    plt.xlabel(u"Dziewczyny")
+    plt.ylabel(u"Chłopaki")
+
+    outFileName = "join.png"
+    plt.savefig(outputdir + outputdir_rel + outFileName, dpi=dpi)
+
+    TRESC += u"<p><img src='%s' alt='%s' /></p>\n" % (outFileName, u"Dziewczyny kontra chłopaki")
+    plt.clf()
+    
+'''
+
 
 def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50):
    print "***", groupby
@@ -200,9 +180,12 @@ def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50):
 
 	  plt.title(global_tytul + " :: " + tytul)
 	  plt.xticks(rotation='vertical')
-	  ax.fmt_xdata = DateFormatter('%H:%M')
+	  #ax.fmt_xdata = DateFormatter('%H:%M')
 
 	  sns.violinplot(data=zgrupowane, x="czas_netto_s", y=groupby, palette="Set1", orient='h', inner="quartile", bw=0.1)
+	  
+	  plt.xlabel(u"Czas netto")
+	  
 	  outplik = "violinplot-%s.png" % groupby
 	  plt.savefig(outputdir + outputdir_rel + outplik, dpi=dpi)
 
@@ -219,6 +202,7 @@ def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50):
 
 	      ax.xaxis.set_major_formatter(FuncFormatter(time_ticks))
 	      ax.xaxis.set_major_locator(MultipleLocator(600))
+	      plt.xlabel(u"Czas netto")
 
 	      plt.title(global_tytul + " :: " + tytul)
 	      plt.xticks(rotation='vertical')
@@ -244,7 +228,92 @@ def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50):
 	  
 
 
-########## MIĘCHO
+########## MIĘCHO ######################
+
+
+# create output dir
+outputdir_rel = "out/" + os.path.splitext(os.path.basename(input_csv))[0] + "/"
+#outputdir = "/mnt/nfs/www/statystykibiegowe/"
+outputdir = "OUT_HTML/"
+mkdir_p(outputdir + outputdir_rel)
+print outputdir_rel
+
+################################################
+
+wej = pd.read_csv(input_csv, sep=",", encoding='utf-8') #, index_col=[0])
+
+t_min = np.min(wej.czas_netto.apply(getSec))
+t_max = np.max(wej.czas_netto.apply(getSec))
+
+
+if t_max > 8*3600:	# bardzo długie biegi
+  print "Bardzo długi bieg"
+  dT = 1200
+
+elif t_max > 6*3600:
+  print "Długi bieg, odcinamy czasy >6h"
+  t_max = 6*3600 # odcinamy czasy > 6h
+  dT = 300
+
+else:
+  print "Normalny bieg"
+  dT = 300
+
+
+bin_min = int(t_min/dT)*dT
+bin_max = int(t_max/dT+1)*dT
+bins = np.arange(bin_min, bin_max + dT, dT)
+
+print bins
+
+uczestnikow = len(wej.index)
+wej['czas_netto_s'] = wej.czas_netto.apply(getSec)
+print "Uczestników:", uczestnikow
+
+################################################
+
+
+TRESC += "<a name='histogramy'><h2>Histogramy</h2></a>"
+MENU += "<a href='#histogramy'>Histogramy</a></br>"
+
+TRESC += u"<h3>Klasyfikacja generalna</h3>\n"
+rysuj_histogram(wej, "generalka")
+
+columnsToKeep = [1,2,3,4,5,6,7]
+TRESC += pd.DataFrame(wej.czas_netto_s.describe().apply(getHMS)).rename(columns={'czas_netto_s': 'czas'}).transpose()[columnsToKeep].to_html()
+
+################################################
+
+
+
+if 'plec' in wej:
+  plcie = {"kobiety": 'K', u"mężczyźni": 'M' }
+  wej.plec.replace('F', 'K', inplace=True)
+  wej.plec = wej.plec[wej.plec.isin(['K','M'])]
+  columnsToKeep = [1,2,3,4,5,6,7]
+  for plec_opis, plec in plcie.iteritems():
+    print "Histogram dla ", plec
+    TRESC += u"<h3>%s</h3>\n" % plec_opis
+    data_plec = wej[(wej.plec == plec)]
+    rysuj_histogram(data_plec, plec_opis)
+    TRESC += pd.DataFrame(data_plec.czas_netto_s.describe().apply(getHMS)).rename(columns={'czas_netto_s': 'czas'}).transpose()[columnsToKeep].to_html()
+
+
+'''
+  print "Joinplot ..."
+  #print wej.czas_netto_s[(wej.plec == 'K')].values
+  #exit(1)
+  TRESC += u"<h3>Dziewczyny kontra chłopaki</h3>\n"
+  TRESC += u"Czas (w sekundach) dla najlepszych %i kobiet i mężczyzn" % len(wej.czas_netto_s[(wej.plec == 'K')])
+  rysuj_joinplot(wej.czas_netto_s[(wej.plec == 'K')].values, wej.czas_netto_s[(wej.plec == 'M')].values)
+'''
+
+
+################################################
+
+
+TRESC += u"<a name='rybkowe'><h2>Wykresy rybkowe</h2></a>\n"
+MENU += "<a href='#rybkowe'>Wykresy rybkowe</a><br />"    
 
 rysuj_violin_plot(groupby='plec', tytul=u"wg płci", warunek=1)
 rysuj_violin_plot(groupby='kat', tytul="wg kategorii", wysokosc=10, warunek=5)
