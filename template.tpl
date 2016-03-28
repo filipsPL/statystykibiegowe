@@ -38,6 +38,7 @@ $TRESC
 <div class="aside">
 <h2>Menu</h2>
 <p>$MENU</p>
+<p>Dystans: $DYSTANS km</p>
 <p>Liczba uczestników: $UCZESTNIKOW</p>
 <p class="info1">Wygenerowano: $DATA</p>
 </div>
@@ -47,7 +48,7 @@ $TRESC
 
 		<div class="footer">
 			<div class="container">
-				&copy; Copyright and copyleft :: filips
+				Wymyślił, napisał, policzył i zaprogramował: filips | <a href="https://filipspl.github.io/statystykibiegowe/">https://filipspl.github.io/statystykibiegowe/</a>
 			</div>
 		</div>
 	</body>

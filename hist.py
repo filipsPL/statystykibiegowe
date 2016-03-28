@@ -38,9 +38,12 @@ from string import Template	# html templates
 import codecs	# unicode write-save files
 
 
-sns.set(style="ticks")
+#####################################################################
+
+sns.set_style("whitegrid")
 sns.set_context("notebook", font_scale=1.2)
 
+#####################################################################
 input_csv = ''
 global_tytul = ''
 TRESC = ""
@@ -48,10 +51,10 @@ MENU = ""
 
 
 try:
-    myopts, args = getopt.getopt(sys.argv[1:],"i:t:")
+    myopts, args = getopt.getopt(sys.argv[1:],"i:t:d:")
 except getopt.GetoptError as e:
     print (str(e))
-    usage = "Usage: %s\n\t-i input csv file\n\t-t tytuł" % sys.argv[0]
+    usage = "Usage: %s\n\t-i input csv file\n\t-d dystans\n\t-t tytuł" % sys.argv[0]
     print usage
     sys.exit(2)
 
@@ -60,6 +63,8 @@ for o, a in myopts:
         input_csv=a.decode('UTF-8')
     elif o == '-t':
         global_tytul=a.decode('UTF-8')
+    elif o == '-d':
+        dist=float(a.decode('UTF-8'))
     else:
 	print usage
 	sys.exit(2)
@@ -92,32 +97,46 @@ def time_ticks(x, pos):
     h, m, s = str(d).split(":")
     return ":".join([h, m])
 
+
+def pace_ticks(x, pos):
+  return "%i:%02i" % divmod(x/dist, 60)
+
+
 ################################################
 
 def rysuj_histogram(df, opis):
+    plt.clf()
+
     global TRESC, MENU, global_tytul
-    fig, ax = plt.subplots(figsize=(10, 5))
-    plt.subplots_adjust(bottom=0.18)
 
-    ax.get_xaxis().tick_bottom()
-    ax.get_yaxis().tick_left()
+    fig, ax = plt.subplots(figsize=(11, 5))
+    plt.subplots_adjust(bottom=0.18, top=0.85)
 
-    ax.xaxis.set_major_formatter(FuncFormatter(time_ticks))
-    ax.xaxis.set_major_locator(MultipleLocator(dT))
-    plt.title("%s (%s)" % (global_tytul, opis))
-    plt.xticks(rotation='vertical')
+    #ax.get_xaxis().tick_bottom()
+    #ax.get_yaxis().tick_left()
     
-    sns.distplot(df.czas_netto_s, rug=True, bins=bins, kde=False);
-
-    plt.xlabel(u"Czas netto")
+    ax1 = sns.distplot(df.czas_netto_s, rug=True, bins=bins, kde=False)
+    ax1.xaxis.set_major_formatter(FuncFormatter(time_ticks))
+    ax1.xaxis.set_major_locator(MultipleLocator(dT))
+    plt.xticks(rotation='vertical')
+    ax1.set_xlabel(u"Czas netto")
     plt.ylabel(u"Zawodników")
 
-    #ppl.hist(np.asarray(df.czas_netto_s), grid='y', color='orange', bins=bins)
+    ax2 = ax1.twiny()
+    ax1 = sns.distplot(df.czas_netto_s, rug=True, bins=bins, kde=False)
+    ax2.xaxis.set_major_formatter(FuncFormatter(pace_ticks))
+    ax2.xaxis.set_major_locator(MultipleLocator(dT))
+    plt.xticks(rotation='vertical')
+    ax2.set_xlabel(u"Tempo, min/km")
+    plt.ylabel(u"Zawodników")
+
     outFileName = "hist-%s.png" % (opis)
     plt.savefig(outputdir + outputdir_rel + outFileName, dpi=dpi)
 
     TRESC += u"<p><img src='%s' alt='%s' /></p>\n" % (outFileName, global_tytul)
     plt.clf()
+    #exit(1)
+
 
 '''
 def rysuj_joinplot(dziewczyny, chlopaki):
@@ -171,23 +190,29 @@ def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50):
 	  print "Liczba grup:", ileGrup
 	  TRESC += u"<a name='%s'><h3>%s</h3></a>\n" % (groupby, tytul)
 
-	  sns.set_style("whitegrid")
-	  fig, ax = plt.subplots(figsize=(10, wysokosc))
-	  plt.subplots_adjust(bottom=0.16)
+	  plt.clf()
+	  fig, ax = plt.subplots(figsize=(11, wysokosc))
+	  plt.subplots_adjust(bottom=0.18, top=0.85)
 
-	  ax.xaxis.set_major_formatter(FuncFormatter(time_ticks))
-	  ax.xaxis.set_major_locator(MultipleLocator(600))
-
-	  plt.title(global_tytul + " :: " + tytul)
+	  ax1 = sns.violinplot(data=zgrupowane, x="czas_netto_s", y=groupby, palette="Set1", orient='h', inner="quartile", bw=0.1)
+	  ax1.xaxis.set_major_formatter(FuncFormatter(time_ticks))
+	  ax1.xaxis.set_major_locator(MultipleLocator(dT))
 	  plt.xticks(rotation='vertical')
-	  #ax.fmt_xdata = DateFormatter('%H:%M')
+	  ax1.set_xlabel(u"Czas netto")
+	  plt.ylabel(u"Kategoria")
 
-	  sns.violinplot(data=zgrupowane, x="czas_netto_s", y=groupby, palette="Set1", orient='h', inner="quartile", bw=0.1)
-	  
-	  plt.xlabel(u"Czas netto")
+	  ax2 = ax1.twiny()
+	  ax2 = sns.violinplot(data=zgrupowane, x="czas_netto_s", y=groupby, palette="Set1", orient='h', inner="quartile", bw=0.1 )
+	  ax2.xaxis.set_major_formatter(FuncFormatter(pace_ticks))
+	  ax2.xaxis.set_major_locator(MultipleLocator(dT))
+	  plt.xticks(rotation='vertical')
+	  ax2.set_xlabel(u"Tempo, min/km")
+	  plt.ylabel(u"Kategoria")
+
 	  
 	  outplik = "violinplot-%s.png" % groupby
 	  plt.savefig(outputdir + outputdir_rel + outplik, dpi=dpi)
+	  plt.clf()
 
 	  TRESC += "<p><img src='%s' alt='%s' /></p>" % (outplik, tytul)
 	  MENU += u"∙ <a href='#%s'>%s</a><br />" % (groupby, tytul)
@@ -195,23 +220,36 @@ def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50):
 
 	  ##### SWARM 
 	  if len(wej) < 1500:
+	      print "  swarm plots ..."
+
 	      plt.clf()
-	      sns.set_style("whitegrid")
 	      fig, ax = plt.subplots(figsize=(10, wysokosc))
-	      plt.subplots_adjust(bottom=0.16)
+	      plt.subplots_adjust(bottom=0.18, top=0.85)
 
-	      ax.xaxis.set_major_formatter(FuncFormatter(time_ticks))
-	      ax.xaxis.set_major_locator(MultipleLocator(600))
-	      plt.xlabel(u"Czas netto")
-
-	      plt.title(global_tytul + " :: " + tytul)
+	      ax1 = sns.swarmplot(x="czas_netto_s", y=groupby, hue=groupby, data=zgrupowane, palette="Set1")
+	      ax1.xaxis.set_major_formatter(FuncFormatter(time_ticks))
+	      ax1.xaxis.set_major_locator(MultipleLocator(dT))
 	      plt.xticks(rotation='vertical')
-	      ax.fmt_xdata = DateFormatter('%H:%M')
+	      ax1.set_xlabel(u"Czas netto")
+	      plt.ylabel(u"Kategoria")
 
+	      ax2 = ax1.twiny()
+	      ax2 = sns.swarmplot(x="czas_netto_s", y=groupby, hue=groupby, data=zgrupowane, palette="Set1")
+	      ax2.xaxis.set_major_formatter(FuncFormatter(pace_ticks))
+	      ax2.xaxis.set_major_locator(MultipleLocator(dT))
+	      plt.xticks(rotation='vertical')
+	      ax2.set_xlabel(u"Tempo, min/km")
+	      plt.ylabel(u"Kategoria")
 
-	      sns.swarmplot(x="czas_netto_s", y=groupby, hue=groupby, data=zgrupowane, palette="Set1")
+	      #plt.xlabel(u"Czas netto")
+
+	      #plt.title(global_tytul + " :: " + tytul)
+	      #plt.xticks(rotation='vertical')
+	      #ax.fmt_xdata = DateFormatter('%H:%M')
+
 	      outplik = "swarmplot-%s.png" % (groupby)
 	      plt.savefig(outputdir + outputdir_rel + outplik, dpi=dpi)
+	      plt.clf()
 		      
 	      TRESC += "<p><img src='%s' alt='%s' /></p>" % (outplik, tytul)
 
@@ -237,6 +275,7 @@ outputdir_rel = "out/" + os.path.splitext(os.path.basename(input_csv))[0] + "/"
 outputdir = "OUT_HTML/"
 mkdir_p(outputdir + outputdir_rel)
 print outputdir_rel
+print "dist:", dist, "km"
 
 ################################################
 
@@ -264,10 +303,11 @@ bin_min = int(t_min/dT)*dT
 bin_max = int(t_max/dT+1)*dT
 bins = np.arange(bin_min, bin_max + dT, dT)
 
-print bins
+#print bins
 
 uczestnikow = len(wej.index)
 wej['czas_netto_s'] = wej.czas_netto.apply(getSec)
+#wej['tempo'] = wej.czas_netto_s.apply(time2pace)
 print "Uczestników:", uczestnikow
 
 ################################################
@@ -341,7 +381,7 @@ src = Template( f.read() )
 
 
 #d = { 'TYTUL':global_tytul, 'UCZESTNIKOW':uczestnikow, 'DATA': datetime.datetime.now(), 'TRESC':TRESC, 'RELATIVE':"../"}
-d = { 'TYTUL':global_tytul, 'UCZESTNIKOW':uczestnikow, 'DATA': datetime.datetime.now(), 'TRESC':TRESC, 'MENU':MENU, 'RELATIVE':"../../"}
+d = { 'TYTUL':global_tytul, 'UCZESTNIKOW':uczestnikow, 'DYSTANS': dist, 'DATA': datetime.datetime.now(), 'TRESC':TRESC, 'MENU':MENU, 'RELATIVE':"../../"}
 
 f = codecs.open( outputdir + outputdir_rel + "index.html", 'w', encoding='utf-8' )
 out = src.substitute(d) #.encode('utf-8').strip()
