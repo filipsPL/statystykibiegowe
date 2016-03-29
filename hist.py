@@ -356,15 +356,15 @@ TRESC += u"<a name='rybkowe'><h2>Wykresy rybkowe</h2></a>\n"
 MENU += "<a href='#rybkowe'>Wykresy rybkowe</a><br />"    
 
 rysuj_violin_plot(groupby='plec', tytul=u"wg płci", warunek=1)
-rysuj_violin_plot(groupby='kat', tytul="wg kategorii", wysokosc=10, warunek=5)
+rysuj_violin_plot(groupby='kat', tytul="wg kategorii", wysokosc=10, warunek=3)
 rysuj_violin_plot(groupby='kraj', tytul=u"wg krajów", wysokosc=10, warunek=10)
 
 
-if(uczestnikow > 7500):
-    rysuj_violin_plot(groupby='imie', tytul="wg imion", warunek=100, wysokosc=10)
+if(uczestnikow > 3000):
+    rysuj_violin_plot(groupby='imie', tytul="wg imion", warunek=50, wysokosc=10)
     rysuj_violin_plot(groupby='nazwisko', tytul=u"wg nazwisk", warunek=20, wysokosc=10)
     rysuj_violin_plot(groupby='team', tytul=u"wg teamów", warunek=10, wysokosc=10)
-    rysuj_violin_plot(groupby='miejscowosc', tytul=u"wg miejscowości", warunek=50, wysokosc=10)
+    rysuj_violin_plot(groupby='miejscowosc', tytul=u"wg miejscowości", warunek=40, wysokosc=10)
 
 
 #### polishing html
