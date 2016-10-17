@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Statystyki biegowe: $TYTUL</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="Description" lang="en" content="Statystyki biegowe">
+		<meta name="Description" lang="pl" content="Statystyki biegowe">
 		<meta name="author" content="Filip Stefaniak">
 		<meta name="robots" content="index, follow">
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />

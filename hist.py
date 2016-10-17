@@ -15,8 +15,8 @@ matplotlib==1.4.3
 numpy==1.9.2
 pandas==0.16.0
 
-sudo apt-get install libfreetype6-dev libxft-dev
-pip install numpy pandas matplotlib prettyplotlib
+sudo apt-get install libfreetype6-dev libxft-dev python-tk
+pip install setuptools numpy pandas matplotlib prettyplotlib seaborn
 
 '''
 
