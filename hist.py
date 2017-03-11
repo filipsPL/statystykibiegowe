@@ -284,6 +284,7 @@ wej = pd.read_csv(input_csv, sep=",", encoding='utf-8') #, index_col=[0])
 t_min = np.min(wej.czas_netto.apply(getSec))
 t_max = np.max(wej.czas_netto.apply(getSec))
 
+print wej
 
 if t_max > 8*3600:	# bardzo długie biegi
   print "Bardzo długi bieg"

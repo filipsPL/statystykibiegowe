@@ -1,0 +1,195 @@
+Poz,Kat,plec+msc,czas_netto,Numer,nazwisko,team,plec
+1,V/1,M/1,00:34:32,1376,Artur Jabłoński,Dream Run,M
+2,VI/1,M/2,00:34:45,2855,Robert Zając,Orange Polska,M
+3,V/2,M/3,00:35:43,2005,Michał Łukaszuk,Dream Run,M
+4,III/1,M/4,00:35:52,1143,Krzysztof Grześkowiak,Narodowy Bank Polski,M
+5,III/2,M/5,00:36:13,1286,Piotr Stochmalski,Warszawa,M
+6,IV/1,M/6,00:36:15,1261,Wawrzyniec Pawski,T.G. Sokół Zakopane,M
+7,IV/2,M/7,00:36:22,519,Grzegorz Głuszak,Warszawa-Ursynów,M
+8,VII/1,M/8,00:36:51,1191,Tomasz Wiśniewski,Mayday Team Lublin,M
+9,IV/3,M/9,00:36:58,308,Radosław Selke,A.K.B. MORT!,M
+10,VI/2,M/10,00:37:00,1275,Maciej Żywek,Niezrzeszony,M
+11,VI/3,M/11,00:37:04,1056,Marek Primik,Vege Runners,M
+12,VIII/1,M/12,00:37:08,333,Jacek Gardener,JacekBiega Running Team,M
+13,VI/4,M/13,00:37:18,317,Maciej Okrasa,Warszawiaky,M
+14,IV/4,M/14,00:37:23,262,Tomasz Kwiatek,A.K.B. MORT!,M
+15,III/3,M/15,00:37:24,2074,Mariusz Ciesielski,Dream Run,M
+16,V/3,M/16,00:37:28,415,Andrzej Jankowski,Kondycja,M
+17,IV/5,M/17,00:37:33,1399,Zbigniew Marzec,Dream Run,M
+18,IV/6,M/18,00:37:36,238,Tomasz Chmielewski,Dream Run,M
+19,V/4,M/19,00:37:44,528,Michał Goliński,Otwock,M
+20,V/5,M/20,00:38:16,286,Maciej Kurowski,Nationale-Nederlanden,M
+21,V/6,M/21,00:38:28,312,Piotr Kobierski,uka.pl,M
+22,VI/5,M/22,00:38:31,902,Bartosz Widzyński,Grupa Biegowa Parkrun Warszawa,M
+23,V/7,M/23,00:38:33,386,Bogdan Snarski,Albatrosy,M
+24,IX/1,M/24,00:38:45,298,Szymon Drabczyk,Niezrzeszony,M
+25,VI/6,M/25,00:39:09,804,Piotr Frączyk,A.K.B. MORT!,M
+26,III/4,M/26,00:39:12,1215,Michał Klimowicz,Niezrzeszony,M
+27,IV/7,M/27,00:39:15,2672,Bartłomiej Całka,Pilawa,M
+28,IV/8,M/28,00:39:18,1341,Piotr Podsiadło,Dream Run,M
+29,V/8,M/29,00:39:18,549,Błażej Grabowski,JacekBiega Running Team,M
+30,VII/2,M/30,00:39:26,728,Krzysztof Bieniak,A.K.B. MORT!,M
+31,V/9,M/31,00:39:36,859,Bartłomiej Matysiak,JacekBiega Running Team,M
+32,VII/3,M/32,00:39:42,369,Piotr Urbala,Biegam bo krzyczy,M
+33,VI/7,M/33,00:39:47,855,Darek Knychas,KB ERGO,M
+34,III/5,M/34,00:39:54,402,Marek Skibiński,Lasek Bielański Team,M
+35,VI/8,M/35,00:39:59,208,Michał Maciopa,Warszawa-Bemowo,M
+36,III/6,M/36,00:40:03,1253,Piotr Witkowski,Pędziwiatry z Natolina,M
+37,V/10,M/37,00:40:03,640,Sławomir Stykowski 'Styku78',Art Profi Warszawa,M
+38,IV/9,M/38,00:40:16,2259,Michał Piędel,A.K.B. MORT!,M
+40,III/7,M/40,00:40:26,258,Darek Grycz,Twierdza Modlin,M
+42,VIII/2,M/42,00:40:33,380,Jacek Nowakowski,Augustowskie Tow. Pływackie,M
+43,VII/4,M/43,00:40:36,2636,Artur Mikulski,Blue Dogs,M
+44,VII/5,M/44,00:40:51,2347,Piotr Nadrowski,Kondycja,M
+45,IV/10,M/45,00:40:57,884,Grzesiek Smoliński,A.K.B. MORT!,M
+46,VII/6,M/46,00:41:02,420,Marcin Zabdyr,Kondycja,M
+47,III/8,M/47,00:41:04,1010,Paweł Kowalik,JacekBiega Running Team,M
+48,II/1,M/48,00:41:04,1334,Jakub Olewiński,Dream Run,M
+49,V/11,M/49,00:41:09,373,Krzysztof Kozarski,RK Legal Team,M
+50,VIII/3,M/50,00:41:10,332,Piotr Polański,Warszawa-Mokotów,M
+51,V/12,M/51,00:41:14,340,Piotr Kwitowski,Niezrzeszony,M
+52,V/13,M/52,00:41:16,862,Rafał Garbat,A.K.B. MORT!,M
+53,IX/2,M/53,00:41:19,242,Witold Grunwald,A.K.B. MORT!,M
+54,VI/9,M/54,00:41:21,1160,Paweł Mioduszewski,JacekBiega Running Team,M
+55,II/2,M/55,00:41:27,426,Marcin Wojewódzki,Wojewódzcy Team,M
+56,IV/11,M/56,00:41:45,358,Marcin Olejnik,Warszawa-Wilanów,M
+57,VII/7,M/57,00:41:45,879,Tadeusz Góral,Niezrzeszony,M
+58,VII/8,M/58,00:41:54,846,Andrzej Piątkowski,Dream Run,M
+59,V/14,M/59,00:41:56,316,Maciej Struk,Dream Run,M
+60,V/15,M/60,00:42:00,790,Adam Mioduszewski,Warszawa,M
+61,IX/3,M/61,00:42:01,352,Jacek Nowocień,GLKS Nadarzyn,M
+62,II/3,M/62,00:42:06,388,Artur Szyndler,Warszawa,M
+63,III/9,M/63,00:42:13,382,Marcin Pietraszek,Vege Runners,M
+64,IV/12,M/64,00:42:15,207,Jakub Majer,Warszawa-Imielin,M
+65,VIII/4,M/65,00:42:40,1250,Sławomir Kurzawa,Orange Polska,M
+66,III/10,M/66,00:42:50,1306,Krzysztof Sobota,Niezrzeszony,M
+67,VI/10,M/67,00:43:04,1039,Patryk Piputa,Warszawa-Wilanów,M
+68,V/16,M/68,00:43:06,2295,Piotr Sławiński,Warszawa-Ursynów,M
+69,VII/9,M/69,00:43:12,240,Tadeusz Głupczyk,Grupa Biegowa Parkrun Warszawa,M
+70,IV/13,M/70,00:43:15,1308,Grzegorz Zygadlewicz,JacekBiega Running Team,M
+71,VI/11,M/71,00:43:16,466,Czarek Grudniewski,Warszawa-Ursynów,M
+72,X/1,M/72,00:43:18,715,Zenon Łapiński 'tatuch',aleTEMPO,M
+73,K-III/1,K/1,00:43:23,1446,Sylwia Bondara,JacekBiega Running Team,K
+74,K-IV/1,K/2,00:43:40,1434,Marzena Sadowska,A.K.B. MORT!,K
+75,VIII/5,M/73,00:43:41,212,Mirosław Gójski,GKS Grodzisk,M
+76,III/11,M/74,00:43:42,384,Mati Kowalczyk,Niezrzeszony,M
+77,VI/12,M/75,00:43:42,260,Krzysztof Matyskiel,Night Runners,M
+78,IV/14,M/76,00:43:47,385,Łukasz Jumien,Niezrzeszony,M
+79,K-VII/1,K/3,00:43:50,137,Izabela Pododemska-Zabdyr,Kondycja,K
+80,VIII/6,M/77,00:43:57,309,Sławomir Salwin,Wieliszew Heron Team,M
+81,VI/13,M/78,00:43:58,274,Michał Skwirut 'mksmdk',Metro Warszawskie,M
+82,X/2,M/79,00:44:00,357,Paweł Święcki,Warszawa-Ursynów,M
+83,VI/14,M/80,00:44:02,1090,Tomasz Januchta,Niezrzeszony,M
+84,VI/15,M/81,00:44:05,294,Jakub Płócienniczak,Dream Run,M
+85,V/17,M/82,00:44:07,645,Mikołaj Groniecki,JacekBiega Running Team,M
+86,XI/1,M/83,00:44:12,2586,Chris Jenkins,Wilanów Coffin Dodgers,M
+87,VIII/7,M/84,00:44:15,1287,Grzegorz Wojewódzki,Warszawa-Ursynów,M
+88,K-IV/2,K/4,00:44:18,1491,Karolina Kundys,Warszawa-Kabaty,K
+89,VII/10,M/85,00:44:26,779,Wojciech Grzegorczyk,Kondycja,M
+90,K-V/1,K/5,00:44:29,1577,Katarzyna Wesołowska,Orange Polska,K
+91,V/18,M/86,00:44:53,211,Paweł Szołucha,Warszawa-Mokotów,M
+92,K-V/2,K/6,00:45:02,1756,Monika Wach,Dream Run,K
+93,IV/15,M/87,00:45:02,359,Piotr Krawczyk,KS Wolni,M
+94,VI/16,M/88,00:45:06,366,Marcin Musiał,Niezrzeszony,M
+95,V/19,M/89,00:45:23,377,Jacek Sitkiewicz,Warszawa-Ursynów,M
+96,VII/11,M/90,00:45:25,1138,Mariusz Bańka,Warszawa,M
+97,IX/4,M/91,00:45:26,877,Stanisław Kamiński,Nadarzyn,M
+98,VIII/8,M/92,00:45:27,436,Waldemar Kurpiński,Warszawa-Bielany,M
+99,X/3,M/93,00:45:28,2032,Marek Wosik,Warszawa-Natolin,M
+100,K-V/3,K/7,00:45:29,3,Monika Dryja,Obozybiegowe.pl,K
+101,VI/17,M/94,00:45:29,210,Artur Gronczewski,FMW Runners,M
+102,VI/18,M/95,00:45:30,2828,Olaf Pierzak,Amok Team,M
+103,X/4,M/96,00:45:30,395,Dariusz Prądzyński 'Krokomierz',calidris minuta,M
+104,K-V/4,K/8,00:45:32,1585,Aleksandra Siwczuk,JacekBiega Running Team,K
+105,V/20,M/97,00:45:36,363,Jerzy Kołaczyński,KK253 Warszawa,M
+106,XI/2,M/98,00:45:43,349,Stefan Baltyn,JAHAI Suchedniow,M
+107,VII/12,M/99,00:45:46,390,Andrzej Bazyluk,KB Ergo,M
+108,VIII/9,M/100,00:45:47,2350,Zbigniew Jusiński,Kondycja,M
+109,V/21,M/101,00:45:50,749,Karol Witowski,Warszawa,M
+110,IX/5,M/102,00:46:07,209,Grzegorz Ziółek,Wieliszew Heron Team,M
+111,V/22,M/103,00:46:08,367,Łukasz Wróbel,KS Wolni,M
+112,V/23,M/104,00:46:29,1179,Sobiesław Kozłowski,Niezrzeszony,M
+113,X/5,M/105,00:46:33,2213,Andrzej Brzozowski,A.K.B. MORT!,M
+114,K-VI/1,K/9,00:46:52,6,Aleksandra Krzyżanowska,2SMAKI.PL,K
+115,IX/6,M/106,00:46:56,2409,Jan Nartowski,A.K.B. MORT!,M
+116,K-VIII/1,K/10,00:47:07,52,Marzena Opowicz 'Marzka-63',KB ActiveSports Warszawa,K
+117,VI/19,M/107,00:47:12,1249,Marek Fila,Marcus Team,M
+118,K-V/5,K/11,00:47:22,18,Joanna Leszczyńska,Niezrzeszony,K
+119,K-VI/2,K/12,00:47:27,1449,Karolina Stańczyk,Dream Run,K
+120,VIII/10,M/108,00:48:02,783,Piotr Wójcik,WARSZAWIAKY,M
+121,XI/3,M/109,00:48:08,825,Zbigniew Korzonkowski,ENTRE.PL Team,M
+122,VIII/11,M/110,00:48:18,213,Andrzej Kochański,Czarnów,M
+123,VI/20,M/111,00:48:25,389,Robert Józwik,Warszawa-Gocław,M
+124,K-VI/3,K/13,00:48:26,169,Katarzyna Górecka,PKO Bank Polski,K
+125,VI/21,M/112,00:48:27,335,Piotr Pióro,A.K.B. MORT!,M
+126,K-IV/3,K/14,00:48:59,1576,Anna Tyczyńska,Pruszków,K
+127,X/6,M/113,00:48:59,521,Maciej Krzak,Kondycja,M
+128,K-VII/2,K/15,00:49:24,1632,Gizela Grabińska,Dream Run,K
+129,K-IV/4,K/16,00:49:31,1641,Natalia Wielogórska,Dream Run,K
+130,X/7,M/114,00:49:38,1030,Grzegorz Budnicki,Warszawa-Kabaty,M
+131,IV/16,M/115,00:49:41,355,Rafał Plewiński,Kujatt Runners Team,M
+132,VI/22,M/116,00:49:47,381,Michał Miazga,Warszawa,M
+133,IX/7,M/117,00:49:53,1040,Piotr Kułakowski,Niezrzeszony,M
+134,XI/4,M/118,00:49:57,924,Paweł Całka,KB ActiveSports Warszawa,M
+135,K-III/2,K/17,00:50:01,5,Paulina Furmankiewicz,Ożarów Mazowiecki,K
+136,K-II/1,K/18,00:50:15,1518,Monika Grom,JacekBiega Running Team,K
+137,K-III/3,K/19,00:50:25,1570,Marta Murawska,Warszawa-Śródmieście,K
+138,K-VI/4,K/20,00:50:26,1587,Katarzyna Józefacka,Parkrun Warszawa Ursynów,K
+139,K-VI/5,K/21,00:50:31,1591,Marzena Szuszkiewicz,JacekBiega Running Team,K
+140,VI/23,M/119,00:50:36,364,Marek Szczotkowski,Piaseczno,M
+141,IX/8,M/120,00:50:55,822,Dariusz Stefański,A.K.B. MORT!,M
+142,VII/13,M/121,00:50:59,279,Grzegorz Laszczyk,Warszawa-Mokotów,M
+143,K-VI/6,K/22,00:51:14,1652,Katarzyna Pawłowska,aleTEMPO,K
+144,VII/14,M/122,00:51:15,275,Stanisław Białecki,Mt28,M
+145,IV/17,M/123,00:51:16,365,Krzysztof Stryjewski,KS Wolni,M
+146,K-IV/5,K/23,00:51:20,68,Anna Rząsowska,Warszawa,K
+147,XII/1,M/124,00:51:28,950,Stanisław Tokarzewski,Komorów,M
+148,K-XI/1,K/24,00:51:44,2,Anna Dobkowska 'and',KB Galeria Warszawa,K
+149,VIII/12,M/125,00:52:32,2777,Tomasz Pawłowski,Biegam Bo Lubię,M
+150,K-I/1,K/25,00:52:44,66,Gabi Oiszanka,OK! Sport Warszawa,K
+151,VIII/13,M/126,00:52:45,376,Wojciech Pędowski,Niezrzeszony,M
+152,K-V/6,K/26,00:52:46,75,Katarzyna Snarska,Niezrzeszony,K
+153,K-VIII/2,K/27,00:52:59,65,Bożena Pędowska,Gliwice,K
+154,K-V/7,K/28,00:53:16,1572,Joanna Łempicka-Gromek,Grupa Biegowa Parkrun Warszawa,K
+155,VI/24,M/127,00:53:17,2453,Robert Wójcik,Niezrzeszony,M
+156,V/24,M/128,00:53:24,375,Marcin Jaworski,Józefosław,M
+157,V/25,M/129,00:53:46,374,Rafał Janowicz,Niezrzeszony,M
+158,IV/18,M/130,00:53:51,372,Tymoteusz Wronka,Warszawa,M
+159,VI/25,M/131,00:54:01,371,Jakub El Mahdi,Piaseczno,M
+160,K-X/1,K/29,00:54:05,32,Małgorzata Kołodziejczak,Niezrzeszony,K
+161,XII/2,M/132,00:54:21,1290,Borys Kozakow,Legia Warszawa,M
+162,X/8,M/133,00:54:28,379,Zbigniew Łącki,Niezrzeszony,M
+163,VI/26,M/134,00:54:34,432,Tomasz Bortlisz,Warszawa,M
+164,X/9,M/135,00:54:40,1299,Jerzy Słaby,Warszawa-Ursynów,M
+165,V/26,M/136,00:54:40,370,Damian Gołaszewski,KS Wolni,M
+166,VII/15,M/137,00:54:41,1117,Rafał Miastowski,Warszawa-Dzielnica Ursynów,M
+167,K-IV/6,K/30,00:54:55,36,Ewa Rosińska,Warszawa-Ursynów,K
+168,K-VIII/3,K/31,00:54:59,8,Maria Teichert,KB ActiveSports Warszawa,K
+169,VII/16,M/138,00:55:10,391,Piotr Woźniak,Warszawa,M
+170,XI/5,M/139,00:55:50,871,Waldemar Staniszewski,Tarchomin Wieś,M
+171,XI/6,M/140,00:55:51,1384,Ksawery Zalewski,Warszawa,M
+172,K-XI/2,K/32,00:55:55,1460,Teresa Żywek,Niezrzeszony,K
+173,VIII/14,M/141,00:56:35,318,Gustaw Dąbrowski,Niezrzeszony,M
+174,K-VII/3,K/33,00:56:40,1404,Katarzyna Wiśniewska,Indywidualistka,K
+175,XI/7,M/142,00:57:08,313,Adam Biernacki,Łódź,M
+176,VI/27,M/143,00:57:32,378,Paweł Bednarczyk,Niezrzeszony,M
+177,X/10,M/144,00:57:53,343,Zbigniew Bator,Niezrzeszony,M
+178,VI/28,M/145,00:58:06,1174,Paweł Dudek,Niezrzeszony,M
+179,XIII/1,M/146,00:58:40,815,Jacek Domański,WKB Heta Lubliniec,M
+180,K-X/2,K/34,00:59:08,1674,Anna Strachocka,Grupa Biegowa UM,K
+181,K-IV/7,K/35,00:59:26,74,Aleksandra Szczotkowska,Piaseczno,K
+182,VI/29,M/147,00:59:42,873,Pablo Niemczyk,RunForrestRun,M
+184,K-VI/7,K/36,01:00:03,72,Beata Matera-zawiska,Zielonka,K
+185,K-XI/3,K/37,01:01:02,19,Teresa Polak 'Tenia',KB ActiveSports Warszawa,K
+186,K-V/8,K/38,01:02:38,63,Justyna Kobierska,Niezrzeszony,K
+187,VI/30,M/149,01:03:01,1323,Aleksander Szeląg,Grupa Biegowa Parkrun Warszawa,M
+188,IX/9,M/150,01:03:32,1236,Jerzy Marszałek,Warszawa-Gocław,M
+189,VI/31,M/151,01:03:36,1324,Sławomir Gajda,Niezrzeszony,M
+190,XI/8,M/152,01:03:58,444,Janusz Kępczyński,GOSIR Ożarów Maz.,M
+191,K-V/9,K/39,01:04:58,76,Beata Wysoczarska,Warszawa,K
+192,XII/3,M/153,01:05:03,474,Jacek Noworyta,Active-Arfrosan \'Biegiem Po Zdrowie\' Team,M
+193,XI/9,M/154,01:05:03,311,Witold Mańkowski,Msz Biega,M
+194,K-XI/4,K/40,01:06:07,25,Elżbieta Rawska,KB ActiveSports Warszawa,K
+195,XIII/2,M/155,01:12:52,489,Zbigniew Duszyński,KB ActiveSports Warszawa,M
+196,XIV/1,M/156,01:18:49,584,Jerzy Bucholc,KB ActiveSports Warszawa,M
+197,XII/4,M/157,01:20:02,233,Jerzy Wojtyński,Warszawa-Ursynów,M
