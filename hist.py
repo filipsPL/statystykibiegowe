@@ -36,6 +36,7 @@ import os, errno
 import seaborn as sns
 from string import Template	# html templates
 import codecs	# unicode write-save files
+from scipy import stats
 
 
 #####################################################################
@@ -136,6 +137,81 @@ def rysuj_histogram(df, opis):
     TRESC += u"<p><img src='%s' alt='%s' /></p>\n" % (outFileName, global_tytul)
     plt.clf()
     #exit(1)
+
+
+
+def rysuj_histogram_stacked(df):
+    plt.clf()
+
+    global TRESC, MENU, global_tytul
+
+    fig, ax = plt.subplots(figsize=(11, 5))
+    plt.subplots_adjust(bottom=0.18, top=0.85)
+    
+    df['21.0975km'] = df['czas_netto']
+
+    i = 0
+    kolory = ["r", "g", "b", "c", "y"]
+    for dystans in [5, 10, 15, 20, 21.0975]:
+        
+        df2 = df[['%skm' % dystans]]
+        df2 = df2.dropna(axis=0)
+    
+        df2["tempo_polmetek"] = df['%skm' % dystans].apply(getSec)/60/dystans
+        
+        ax1 = sns.distplot(df2["tempo_polmetek"], hist=False, color="g", kde_kws={"color": kolory[i], "label": "%s km" % (dystans) })
+        
+        i+=1
+    
+    #ax1.xaxis.set_major_formatter(FuncFormatter(time_ticks))
+    #ax1.xaxis.set_major_locator(MultipleLocator(dT))
+    #plt.xticks(rotation='vertical')
+    ax1.set_xlabel(u"Tempo [min/km]")
+    plt.ylabel(u"Zawodników")
+
+
+    outFileName = "histogram_stacked.png"
+    plt.savefig(outputdir + outputdir_rel + outFileName, dpi=dpi)
+
+    TRESC += u"<p><img src='%s' alt='%s' /></p>\n" % (outFileName, u"histogramy tempa na różnych międzyczasach" )
+    plt.clf()
+
+
+def rysuj_korelacja(df, dystans):
+
+    global TRESC, MENU, global_tytul
+    
+    # tempo na poszczególnych etapach
+    
+    df = df[['czas_netto_s','%skm' % dystans]]
+    
+    df = df.dropna(axis=0)
+   
+    df["tempo_polmetek"] = df['%skm' % dystans].apply(getSec)/60/dystans
+    df["p_21km"] = df['czas_netto_s']/60/21.0975
+
+    fig, ax = plt.subplots(figsize=(11, 5))
+    plt.subplots_adjust(bottom=0.18, top=0.85)
+
+    ax1 = sns.JointGrid("tempo_polmetek", "p_21km", data=df)
+    ax1 = ax1.plot_joint(sns.regplot, order=2, scatter_kws={"s": 1})
+    ax1 = ax1.plot_marginals(sns.distplot)
+    
+    #ax1 = ax1.plot_joint(sns.kdeplot, cmap="Blues_d")
+
+    ax1 = ax1.annotate(stats.pearsonr)
+    
+    #ax1.xaxis.set_major_formatter(FuncFormatter(time_ticks))
+    #ax1.xaxis.set_major_locator(MultipleLocator(dT))
+    plt.xticks(rotation='vertical')
+    ax1.set_axis_labels(u"tempo na dystansie %skm [min/km]" % dystans, u"tempo całego biegu %s [min/km]" % (dist))
+
+    outFileName = "korelacja-%skm.png" % (dystans)
+    plt.savefig(outputdir + outputdir_rel + outFileName, dpi=dpi)
+
+    TRESC += u"<h3>Korelacja tempa %s / %s km</h3>" % (dystans, dist)
+    TRESC += u"<p><img src='%s' alt='%s' /></p>\n" % (outFileName, u"Korelacja tempa międzyczasów %s i końcowych" % (dystans) )
+    plt.clf()
 
 
 '''
@@ -277,6 +353,9 @@ mkdir_p(outputdir + outputdir_rel)
 print outputdir_rel
 print "dist:", dist, "km"
 
+
+
+
 ################################################
 
 wej = pd.read_csv(input_csv, sep=",", encoding='utf-8') #, index_col=[0])
@@ -284,7 +363,7 @@ wej = pd.read_csv(input_csv, sep=",", encoding='utf-8') #, index_col=[0])
 t_min = np.min(wej.czas_netto.apply(getSec))
 t_max = np.max(wej.czas_netto.apply(getSec))
 
-print wej
+#print wej
 
 if t_max > 8*3600:	# bardzo długie biegi
   print "Bardzo długi bieg"
@@ -308,10 +387,13 @@ bins = np.arange(bin_min, bin_max + dT, dT)
 
 uczestnikow = len(wej.index)
 wej['czas_netto_s'] = wej.czas_netto.apply(getSec)
-#wej['tempo'] = wej.czas_netto_s.apply(time2pace)
+
+
+
 print "Uczestników:", uczestnikow
 
 ################################################
+
 
 
 TRESC += "<a name='histogramy'><h2>Histogramy</h2></a>"
@@ -350,11 +432,30 @@ if 'plec' in wej:
 '''
 
 
+
+
 ################################################
+
+if dist == 21.0975:
+
+        TRESC += u"<a name='korelacje'><h2>Korelacje międzyczasów z wynikiem końcowym</h2></a>"
+        MENU += u"<a href='#korelacje'>Korelacje</a></br>"
+
+        rysuj_korelacja(wej, 5)
+        rysuj_korelacja(wej, 10)
+        rysuj_korelacja(wej, 15)
+        rysuj_korelacja(wej, 20)
+
+        TRESC += u"<a name='histogram_stacked'><h2>Histogram tempa na różnych dystansach</h2></a>"
+        MENU += u"<a href='#histogram_stacked'>Histogram - międzyczasy</a></br>"
+        rysuj_histogram_stacked(wej)
+
+
+
 
 
 TRESC += u"<a name='rybkowe'><h2>Wykresy rybkowe</h2></a>\n"
-MENU += "<a href='#rybkowe'>Wykresy rybkowe</a><br />"    
+MENU += u"<a href='#rybkowe'>Wykresy rybkowe</a><br />"    
 
 rysuj_violin_plot(groupby='plec', tytul=u"wg płci", warunek=1)
 rysuj_violin_plot(groupby='kat', tytul="wg kategorii", wysokosc=10, warunek=3)
