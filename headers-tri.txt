@@ -1,0 +1,1 @@
+miejsce	numer	name	kraj	miejscowosc	team	plec	kat	swim	T1	bike	T2	run	czas

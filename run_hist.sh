@@ -9,5 +9,6 @@ do
 	echo "$input	$tytul"
 
 	time ./hist.py -i "in/$input" -d "$dist" -t "$tytul"
-exit
-done < in/biegi.csv
+#exit
+#done < in/biegi.csv
+done < in/biegi-pol.csv
