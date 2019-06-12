@@ -245,19 +245,14 @@ def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50, ktoryCzas="czas_s"
 	      ax1.set_xlabel(u"Czas netto")
 	      plt.ylabel(u"Kategoria")
 
-	      # ax2 = ax1.twiny()
-	      # ax2 = sns.swarmplot(x="czas_s", y=groupby, hue=groupby, data=zgrupowane, palette="Set1")
-	      # ax2.xaxis.set_major_formatter(FuncFormatter(pace_ticks))
-	      # ax2.xaxis.set_major_locator(MultipleLocator(dT))
-	      # plt.xticks(rotation='vertical')
-	      # ax2.set_xlabel(u"Tempo, min/km")
-	      # plt.ylabel(u"Kategoria")
-
-	      #plt.xlabel(u"Czas netto")
-
-	      #plt.title(global_tytul + " :: " + tytul)
-	      #plt.xticks(rotation='vertical')
-	      #ax.fmt_xdata = DateFormatter('%H:%M')
+	      if distSet == True:
+	          ax2 = ax1.twiny()
+	          ax2 = sns.swarmplot(x=ktoryCzas, y=groupby, hue=groupby, data=zgrupowane, palette="Set1")
+	          ax2.xaxis.set_major_formatter(FuncFormatter(tickFunction))
+	          ax2.xaxis.set_major_locator(MultipleLocator(dT))
+	          plt.xticks(rotation='vertical')
+	          ax2.set_xlabel(speedDist)
+	          plt.ylabel(u"Kategoria")
 
 	      outplik = "swarmplot-%s-%s.png" % (groupby, ktoryCzas)
 	      plt.savefig(outputdir + outputdir_rel + outplik, dpi=dpi)
