@@ -112,6 +112,12 @@ def time_ticks(x, pos):
 def pace_ticks(x, pos):
   return "%i:%02i" % divmod(x/dist, 60)
 
+def pace_swim_ticks(x, pos):
+  return "%i:%02i" % divmod(x/(dist/100), 60)
+
+def speed_ticks(x, pos):
+  return "%.2f" % (dist/x*60*60)
+
 
 ################################################
 
@@ -148,118 +154,28 @@ def rysuj_histogram(df, opis):
     plt.clf()
     #exit(1)
 
-
-def rysuj_histogram_stacked(df):
-    plt.clf()
-
-    global TRESC, MENU, global_tytul
-
-    fig, ax = plt.subplots(figsize=(11, 5))
-    plt.subplots_adjust(bottom=0.18, top=0.85)
-
-    df['21.0975km'] = df['czas']
-
-    i = 0
-    kolory = ["r", "g", "b", "c", "y"]
-    for dystans in [5, 10, 15, 20, 21.0975]:
-
-        df2 = df[['%skm' % dystans]]
-        df2 = df2.dropna(axis=0)
-
-        df2["tempo_polmetek"] = df['%skm' % dystans].apply(getSec)/60/dystans
-
-        ax1 = sns.distplot(df2["tempo_polmetek"], hist=False, color="g", kde_kws={"color": kolory[i], "label": "%s km" % (dystans) })
-
-        i+=1
-
-    #ax1.xaxis.set_major_formatter(FuncFormatter(time_ticks))
-    #ax1.xaxis.set_major_locator(MultipleLocator(dT))
-    #plt.xticks(rotation='vertical')
-    ax1.set_xlabel(u"Tempo [min/km]")
-    plt.ylabel(u"Zawodników")
-
-
-    outFileName = "histogram_stacked.png"
-    plt.savefig(outputdir + outputdir_rel + outFileName, dpi=dpi)
-
-    TRESC += u"<p><img src='%s' alt='%s' /></p>\n" % (outFileName, u"histogramy tempa na różnych międzyczasach" )
-    plt.clf()
-
-
-def rysuj_korelacja(df, dystans):
-
-    global TRESC, MENU, global_tytul
-
-    # tempo na poszczególnych etapach
-
-    df = df[['czas_s','%skm' % dystans]]
-
-    df = df.dropna(axis=0)
-
-    df["tempo_polmetek"] = df['%skm' % dystans].apply(getSec)/60/dystans
-    df["p_21km"] = df['czas_s']/60/21.0975
-
-    fig, ax = plt.subplots(figsize=(11, 5))
-    plt.subplots_adjust(bottom=0.18, top=0.85)
-
-    ax1 = sns.JointGrid("tempo_polmetek", "p_21km", data=df)
-    ax1 = ax1.plot_joint(sns.regplot, order=2, scatter_kws={"s": 1})
-    ax1 = ax1.plot_marginals(sns.distplot)
-
-    #ax1 = ax1.plot_joint(sns.kdeplot, cmap="Blues_d")
-
-    ax1 = ax1.annotate(stats.pearsonr)
-
-    #ax1.xaxis.set_major_formatter(FuncFormatter(time_ticks))
-    #ax1.xaxis.set_major_locator(MultipleLocator(dT))
-    plt.xticks(rotation='vertical')
-    ax1.set_axis_labels(u"tempo na dystansie %skm [min/km]" % dystans, u"tempo całego biegu %s [min/km]" % (dist))
-
-    outFileName = "korelacja-%skm.png" % (dystans)
-    plt.savefig(outputdir + outputdir_rel + outFileName, dpi=dpi)
-
-    TRESC += u"<h3>Korelacja tempa %s / %s km</h3>" % (dystans, dist)
-    TRESC += u"<p><img src='%s' alt='%s' /></p>\n" % (outFileName, u"Korelacja tempa międzyczasów %s i końcowych" % (dystans) )
-    plt.clf()
-
-
-'''
-def rysuj_joinplot(dziewczyny, chlopaki):
-
-    print len(dziewczyny), len(chlopaki)
-    dziewczyny = np.append(dziewczyny,  np.empty(len(chlopaki) - len(dziewczyny)) * np.nan)
-    print dziewczyny
-    print len(dziewczyny), len(chlopaki)
-
-
-    global TRESC, MENU, global_tytul
-    fig, ax = plt.subplots(figsize=(10, 5))
-    plt.subplots_adjust(bottom=0.18)
-
-    ax.get_xaxis().tick_bottom()
-    ax.get_yaxis().tick_left()
-
-    ax.xaxis.set_major_formatter(FuncFormatter(time_ticks))
-    ax.xaxis.set_major_locator(MultipleLocator(dT))
-    plt.title("%s (%s)" % (global_tytul, u"Dziewczyny kontra chłopaki"))
-    plt.xticks(rotation='vertical')
-
-    sns.jointplot(dziewczyny, chlopaki, kind="kde", size=7, space=0, dropna=True)
-    ax.xaxis.set_major_formatter(DateFormatter('%H:%M'))
-
-    plt.xlabel(u"Dziewczyny")
-    plt.ylabel(u"Chłopaki")
-
-    outFileName = "join.png"
-    plt.savefig(outputdir + outputdir_rel + outFileName, dpi=dpi)
-
-    TRESC += u"<p><img src='%s' alt='%s' /></p>\n" % (outFileName, u"Dziewczyny kontra chłopaki")
-    plt.clf()
-
-'''
-
-
 def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50, ktoryCzas="czas_s"):
+
+    global dist
+
+    if ktoryCzas == "swim_czas_s":
+        dist = dist1
+        tickFunction = pace_swim_ticks
+        speedDist = u"Tempo, min/100m"
+        distSet = True
+    elif ktoryCzas == "bike_czas_s":
+        dist = dist2
+        speedDist = u"prędkość, km/h"
+        tickFunction = speed_ticks
+        distSet = True
+    elif ktoryCzas == "run_czas_s":
+        dist = dist3
+        speedDist = u"Tempo, min/km"
+        tickFunction = pace_ticks
+        distSet = True
+    else:
+        distSet = False
+
 
     t_min_lokalny = np.min(wej[ktoryCzas])
     t_max_lokalny = np.max(wej[ktoryCzas])
@@ -286,20 +202,22 @@ def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50, ktoryCzas="czas_s"
 
 	  ax1 = sns.violinplot(data=zgrupowane, x=ktoryCzas, y=groupby, palette="Set1", orient='h', inner="quartile", bw=0.1)
 	  ax1.xaxis.set_major_formatter(FuncFormatter(time_ticks))
-      if dT_lokalny > 300:
-             # dla większych czasów odcinka (biegi, rower itp) my ustalamy lokatory osi
-	         ax1.xaxis.set_major_locator(MultipleLocator(dT))
+	  if dT_lokalny > 300:
+              # dla większych czasów odcinka (biegi, rower itp) my ustalamy lokatory osi
+              ax1.xaxis.set_major_locator(MultipleLocator(dT))
       plt.xticks(rotation='vertical')
       ax1.set_xlabel(u"Czas netto")
       plt.ylabel(u"Kategoria")
 
-	  # ax2 = ax1.twiny()
-	  # ax2 = sns.violinplot(data=zgrupowane, x="czas_s", y=groupby, palette="Set1", orient='h', inner="quartile", bw=0.1 )
-	  # ax2.xaxis.set_major_formatter(FuncFormatter(pace_ticks))
-	  # ax2.xaxis.set_major_locator(MultipleLocator(dT))
-	  # plt.xticks(rotation='vertical')
-	  # ax2.set_xlabel(u"Tempo, min/km")
-	  # plt.ylabel(u"Kategoria")
+      if distSet == True:
+          print "dist", dist
+          ax2 = ax1.twiny()
+          ax2 = sns.violinplot(data=zgrupowane, x=ktoryCzas, y=groupby, palette="Set1", orient='h', inner="quartile", bw=0.1 )
+          ax2.xaxis.set_major_formatter(FuncFormatter(tickFunction))
+          ax2.xaxis.set_major_locator(MultipleLocator(dT))
+          plt.xticks(rotation='vertical')
+          ax2.set_xlabel(speedDist)
+          plt.ylabel(u"Kategoria")
 
 
       outplik = "violinplot-%s-%s.png" % (groupby, ktoryCzas)
@@ -320,7 +238,9 @@ def rysuj_violin_plot(groupby, tytul, wysokosc=5, warunek=50, ktoryCzas="czas_s"
 
 	      ax1 = sns.swarmplot(x=ktoryCzas, y=groupby, hue=groupby, data=zgrupowane, palette="Set1")
 	      ax1.xaxis.set_major_formatter(FuncFormatter(time_ticks))
-	      # ax1.xaxis.set_major_locator(MultipleLocator(dT))
+	      if dT_lokalny > 300:
+                 # dla większych czasów odcinka (biegi, rower itp) my ustalamy lokatory osi
+                 ax1.xaxis.set_major_locator(MultipleLocator(dT))
 	      plt.xticks(rotation='vertical')
 	      ax1.set_xlabel(u"Czas netto")
 	      plt.ylabel(u"Kategoria")
@@ -370,6 +290,14 @@ print outputdir_rel
 
 wej = pd.read_csv(input_csv, sep=",", encoding='utf-8') #, index_col=[0])
 
+# preprocessing
+
+wej = wej[wej.czas != '']
+
+
+# t max and t min`
+
+
 t_min = np.min(wej.czas.apply(getSec))
 t_max = np.max(wej.czas.apply(getSec))
 
@@ -412,8 +340,8 @@ print "Uczestników:", uczestnikow
 
 
 
-TRESC += "<a name='histogramy'><h2>Histogramy</h2></a>"
-MENU += "<a href='#histogramy'>Histogramy</a></br>"
+TRESC += u"<a name='histogramy'><h2>Czas całkowity - histogramy</h2></a>"
+MENU += u"<a href='#histogramy'>Czas całkowity - histogramy</a></br>"
 
 TRESC += u"<h3>Klasyfikacja generalna</h3>\n"
 rysuj_histogram(wej, "generalka")
@@ -453,8 +381,8 @@ if 'plec' in wej:
 
 ################################################
 
-TRESC += u"<a name='rybkowe'><h2>Wykresy rybkowe</h2></a>\n"
-MENU += u"<a href='#rybkowe'>Wykresy rybkowe</a><br />"
+TRESC += u"<a name='rybkowe'><h2>Czas całkowity - wykresy rybkowe</h2></a>\n"
+MENU += u"<a href='#rybkowe'>Czas całkowity - wykresy rybkowe</a><br />"
 
 rysuj_violin_plot(groupby='plec', tytul=u"wg płci", warunek=1)
 rysuj_violin_plot(groupby='kat', tytul="wg kategorii", wysokosc=10, warunek=3)
